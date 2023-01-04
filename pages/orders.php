@@ -3,6 +3,20 @@
 session_start();
 
 require "includes/functions.php";
+require "includes/class-orders.php";
+
+$orders = new Orders();
+
+//make sure user is logged in
+if (!isLoggedIn()){
+  //if user is logged in, redirect to login page
+  header("Location: /login");
+  exit;
+}
+$user_id = $_SESSION['user']['id'];
+
+var_dump( $orders->listOrders($user_id) );
+
 require "parts/header.php";
 ?>
   <body>
@@ -17,6 +31,7 @@ require "parts/header.php";
           class="table table-hover table-bordered table-striped table-light"
         >
           <thead>
+          
             <tr>
               <th scope="col">Order ID</th>
               <th scope="col">Products</th>
@@ -25,33 +40,31 @@ require "parts/header.php";
             </tr>
           </thead>
           <tbody>
+          <?php foreach( $orders->listOrders( $user_id ) as $order ) : ?>
             <tr>
-              <th scope="row">1</th>
+              <th scope="row"><?php echo $order['id'];?></th>
               <td>
                 <ul class="list-unstyled">
-                  <li>Product 1</li>
-                  <li>Product 2</li>
+                  <?php foreach( $orders->listProductsinOrder($order ['id']) as $product): ?>
+                  <li>
+                    <?php echo $product['name'];?>
+                    (<?php echo $product['quantity'];?> piece)
+                    <!-- ($<?php echo $product['price'];?> ) -->
+                  </li>
+                  
+                  <?php endforeach;?>
                 </ul>
               </td>
-              <td>$80</td>
-              <td>Pending Payment</td>
+              <td>$<?php echo $order['total_amount'];?></td>
+              <td><?php echo $order['status'];?></td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>
-                <ul class="list-unstyled">
-                  <li>Product 3</li>
-                  <li>Product 4</li>
-                </ul>
-              </td>
-              <td>$60</td>
-              <td>Completed</td>
-            </tr>
+           
+            <?php endforeach; ?>
           </tbody>
         </table>
 
         <div class="d-flex justify-content-between align-items-center my-3">
-          <a href="index.php" class="btn btn-light btn-sm"
+          <a href="/" class="btn btn-light btn-sm"
             >Continue Shopping</a
           >
         </div>

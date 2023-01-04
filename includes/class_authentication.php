@@ -19,7 +19,7 @@ class Authentication
         );
 
         $statement->execute([
-            'email' => $email 
+            'email' => $email   
         ]);
 
         // fetch one result from database
@@ -104,8 +104,8 @@ class Authentication
                 'password' => password_hash( $password, PASSWORD_DEFAULT )
             ]);
 
-            // redirect the user back to login.php
-            header('Location: /login.php');
+            // redirect the user back to /login
+            header('Location: /login');
             exit;
 
         }

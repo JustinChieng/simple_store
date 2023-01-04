@@ -1,118 +1,35 @@
 <?php 
+//get route from global variable
+$path =  ($_SERVER["REQUEST_URI"]);
+// remove beginning slash and ending slash
+$path = trim ($path, '/');
+// remove all the URL parameter that starts with ?
+$path =  parse_url($path, PHP_URL_PATH);
 
-session_start();
+var_dump($path);
 
-require "includes/functions.php";
+switch ($path){
+  case 'login':
+    require "pages/login.php";
+    break;
+  case 'signup':
+    require "pages/signup.php";
+    break;
+  case 'cart':
+    require "pages/cart.php";
+    break;
+  case 'orders':
+    require "pages/orders.php";
+    break;
+  case 'checkout':
+    require "pages/checkout.php";
+    break;
+  case 'logout':
+    require "pages/logout.php";
+    break;
+  default:
+    require "pages/home.php";
+    break;
+}
 
-$database = connectToDB();
-
-var_dump (isLoggedIn());  
-
-
-require "parts/header.php";
-?>
-
-  <body>
-    <div class="container mt-5 mb-2 mx-auto" style="max-width: 900px;">
-      <div class="min-vh-100">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h1 class="h1">My Store</h1>
-          <div class="d-flex align-items-center justify-content-end gap-3">
-            <a href="cart.php" class="btn btn-success">My Cart</a>
-          </div>
-        </div>
-
-        <!-- products -->
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-1_large.png?format=webp&v=1530129292"
-                class="card-img-top"
-                alt="Product 1"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 1</h5>
-                <p class="card-text">$50</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-2_large.png?format=webp&v=1530129318"
-                class="card-img-top"
-                alt="Product 2"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 2</h5>
-                <p class="card-text">$30</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-3_large.png?format=webp&v=1530129341"
-                class="card-img-top"
-                alt="Product 3"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 3</h5>
-                <p class="card-text">$20</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-4_large.png?format=webp&v=1530129292"
-                class="card-img-top"
-                alt="Product 4"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 4</h5>
-                <p class="card-text">$40</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-5_large.png?format=webp&v=1530129318"
-                class="card-img-top"
-                alt="Product 5"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 5</h5>
-                <p class="card-text">$35</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card h-100">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-product-6_large.png?format=webp&v=1530129341"
-                class="card-img-top"
-                alt="Product 6"
-              />
-              <div class="card-body text-center">
-                <h5 class="card-title">Product 6</h5>
-                <p class="card-text">$26</p>
-                <button class="btn btn-primary">Add to cart</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- footer -->
-
-      <?php 
-require "parts/footer.php";
-?>
+    // require "pages/home.php";
